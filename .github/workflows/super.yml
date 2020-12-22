@@ -22,8 +22,13 @@ jobs:
         uses: joschi/setup-jdk@e87a7cec853d2dd7066adf837fe12bf0f3d45e52
         with:
           java-version: openjdk${{ matrix.java }}
-      - name: list files
+      - name: Setup OpenShift
+        uses: manusa/actions-setup-openshift@v1.1.2
+        with:
+          oc version: 'v3.11.0'
+          github token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Interact with the cluster
+        run: oc cluster status
+      - name: Test in JVM mode
         run: |
-          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-          echo $FILES
+          mvn -B -V clean verify -pl app-metadata/deployment,app-metadata/runtime,common,security/keycloak -fae -Dts.use-ephemeral-namespaces=true
