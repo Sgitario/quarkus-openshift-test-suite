@@ -33,8 +33,7 @@ jobs:
     name: JVM build - TESSST
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-          module: ${{ fromJson(needs.detect-modules.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.detect-modules.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v1
       - run: echo ${matrix.module}
