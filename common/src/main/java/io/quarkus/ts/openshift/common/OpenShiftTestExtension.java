@@ -5,7 +5,7 @@ import io.fabric8.openshift.api.model.ImageStream;
 import io.fabric8.openshift.api.model.Route;
 import io.fabric8.openshift.client.OpenShiftClient;
 import io.quarkus.ts.openshift.app.metadata.AppMetadata;
-import io.quarkus.ts.openshift.common.actions.OnOpenShiftFailureAction;
+import io.quarkus.ts.openshift.common.after.OnOpenShiftFailureAction;
 import io.quarkus.ts.openshift.common.config.Config;
 import io.quarkus.ts.openshift.common.injection.InjectionPoint;
 import io.quarkus.ts.openshift.common.injection.TestResource;
@@ -477,7 +477,7 @@ final class OpenShiftTestExtension implements BeforeAllCallback, AfterAllCallbac
             System.out.println(ansi().a("Error running post failure action. Caused by: " + ex).reset());
         }
     }
-    
+
     private void injectDependencies(Object instance, ExtensionContext context) throws Exception {
         for (Field field : findAnnotatedFields(instance.getClass(), TestResource.class, ignored -> true)) {
             InjectionPoint injectionPoint = InjectionPoint.forField(field);

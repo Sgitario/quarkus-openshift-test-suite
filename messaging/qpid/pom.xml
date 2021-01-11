@@ -6,9 +6,9 @@
 
     <parent>
         <groupId>io.quarkus.ts.openshift</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>messaging</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../..</relativePath>
+        <relativePath>..</relativePath>
     </parent>
 
     <artifactId>messaging-qpid</artifactId>
