@@ -1,0 +1,2 @@
+io.quarkus.ts.openshift.common.after.PrintStatusOnOpenShiftFailureActionImpl
+io.quarkus.ts.openshift.common.after.CopyLogsOnOpenShiftFailureActionImpl
