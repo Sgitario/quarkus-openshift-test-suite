@@ -36,4 +36,4 @@ jobs:
       matrix: ${{ fromJson(needs.detect-modules.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v1
-      - run: echo ${matrix.module}
+      - run: echo "${{ matrix.module }}"
