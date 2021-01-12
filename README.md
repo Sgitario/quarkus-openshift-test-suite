@@ -634,3 +634,7 @@ connect to `0.0.0.0` and explicit address needs to be specified like in this exa
 ```
 mvn clean test -Dquarkus.http.host=127.0.0.1
 ```
+
+## How to contribute
+
+The build instructions are available in the [contribution guide](CONTRIBUTING.md).

@@ -1,5 +1,7 @@
 package io.quarkus.ts.openshift.common;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,8 +12,6 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 public class Command {
     private final String description;
@@ -45,21 +45,25 @@ public class Command {
         return program;
     }
 
-    public void runAndWait() throws IOException, InterruptedException {
+    public void runAndWait() {
         System.out.println(ansi().a("running ").fgYellow().a(String.join(" ", command)).reset());
-        Process process = new ProcessBuilder()
-                .redirectErrorStream(true)
-                .command(command)
-                .directory(new File(".").getAbsoluteFile())
-                .start();
+        try {
+            Process process = new ProcessBuilder()
+                    .redirectErrorStream(true)
+                    .command(command)
+                    .directory(new File(".").getAbsoluteFile())
+                    .start();
 
-        new Thread(() -> {
-            outputConsumer.accept(description, process.getInputStream());
-        }, "stdout consumer for command " + description).start();
+            new Thread(() -> {
+                outputConsumer.accept(description, process.getInputStream());
+            }, "stdout consumer for command " + description).start();
 
-        int result = process.waitFor();
-        if (result != 0) {
-            throw new RuntimeException(description + " failed (executed " + command + ", return code " + result + ")");
+            int result = process.waitFor();
+            if (result != 0) {
+                throw new RuntimeException(description + " failed (executed " + command + ", return code " + result + ")");
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
