@@ -12,13 +12,13 @@ jobs:
       run: echo "::set-output name=matrix::$(find -name pom.xml | sed -e 's|pom.xml| |' | sed -e 's|./| |')"
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-  build-released:
-    needs: detect-modules
-    name: JVM build - TESSST
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          module: ${{ fromJson(needs.detect-modules.outputs.matrix) }}
-    steps:
-      - uses: actions/checkout@v1
-      - run: echo ${matrix.module}
+  # build-released:
+  #   needs: detect-modules
+  #   name: JVM build - TESSST
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #         module: ${{ fromJson(needs.detect-modules.outputs.matrix) }}
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - run: echo ${matrix.module}
