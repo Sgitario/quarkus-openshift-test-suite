@@ -9,7 +9,23 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - id: set-matrix
-      run: echo "::set-output name=matrix::$(find -name pom.xml | sed -e 's|pom.xml| |' | sed -e 's|./| |')"
+      run: |
+        MODULES=$(find -name pom.xml | sed -e 's|pom.xml| |' | sed -e 's|./| |')
+        JSON="{\"include\":["
+        for module in $MODULES
+        do
+          JSONline="{\"module\": \"$module\"},"
+          if [[ "$JSON" != *"$JSONline"* ]]; then
+            JSON="$JSON$JSONline"
+          fi
+        done
+      
+        JSON="$JSON]}"
+        echo $JSON
+
+        # Set output
+        echo "::set-output name=matrix::$( echo "$JSON" )"
+
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
   # build-released:
