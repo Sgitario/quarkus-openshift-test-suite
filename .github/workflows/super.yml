@@ -11,7 +11,7 @@ jobs:
     - id: set-matrix
       run: |
         MODULES=$(find -name pom.xml | sed -e 's|pom.xml| |' | sed -e 's|./| |')
-        JSON="{\"include\":["
+        JSON="{\"include\":[" 
         for module in $MODULES
         do
           JSONline="{\"module\": \"$module\"},"
