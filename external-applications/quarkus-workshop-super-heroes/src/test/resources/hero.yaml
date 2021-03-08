@@ -28,7 +28,9 @@ items:
       sourceStrategy:
         env:
         - name: ARTIFACT_COPY_ARGS
-          value: -p -r lib/ *-runner.jar
+          value: -p -r *-runner.jar
+        - name: MAVEN_ARGS
+          value: -DskipTests=true -Dquarkus.package.type=uber-jar
         from:
           kind: ImageStreamTag
           name: openjdk-11:latest
@@ -54,8 +56,6 @@ items:
         - name: quarkus-workshop-hero
           image: quarkus-workshop-hero:latest
           env:
-          - name: ARTIFACT_COPY_ARGS
-            value: -p -r lib/ *-runner.jar
           - name: QUARKUS_DATASOURCE_JDBC_URL
             value: jdbc:postgresql://heroes-database:5432/heroes-database
           - name: QUARKUS_HTTP_PORT
